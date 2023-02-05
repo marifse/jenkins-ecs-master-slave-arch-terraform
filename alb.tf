@@ -35,42 +35,9 @@ resource "aws_alb_target_group" "jenkins_controller_tg" {
 
 # This listener is used when dont't use https with the ALB
 resource "aws_lb_listener" "controller_http" {
-  count             = var.route53_zone_name != "" ? 0 : 1
   load_balancer_arn = aws_alb.alb_jenkins_controller.arn
   port              = "80"
   protocol          = "HTTP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.jenkins_controller_tg.arn
-  }
-}
-
-
-resource "aws_lb_listener" "controller_http_redirect" {
-  count             = var.route53_zone_name != "" ? 1 : 0
-  load_balancer_arn = aws_alb.alb_jenkins_controller.arn
-  port              = "80"
-  protocol          = "HTTP"
-
-  default_action {
-    type = "redirect"
-    redirect {
-      port        = "443"
-      host        = local.jenkins_host
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
-  }
-}
-
-resource "aws_lb_listener" "controller_https" {
-  count             = var.route53_zone_name != "" ? 1 : 0
-  load_balancer_arn = aws_alb.alb_jenkins_controller.arn
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
-  certificate_arn   = aws_acm_certificate.controller_certificate[0].arn
 
   default_action {
     type             = "forward"

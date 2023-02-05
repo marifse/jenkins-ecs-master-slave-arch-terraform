@@ -1,11 +1,5 @@
 data "aws_caller_identity" "caller" {}
 
-data "aws_route53_zone" "dns_zone" {
-  count        = var.route53_zone_name != "" ? 1 : 0
-  name         = var.route53_zone_name
-  private_zone = false
-}
-
 data "aws_iam_policy_document" "ecs_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
