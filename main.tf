@@ -155,7 +155,6 @@ resource "aws_ecs_service" "jenkins_controller" {
   # be an error saying that the target group is not attached to a load balancer.
   depends_on = [
     aws_lb_listener.controller_http,
-    aws_lb_listener.controller_https,
     aws_lb_listener.agents_http_listener,
     aws_lb_listener.agents_jnlp_listener
   ]
