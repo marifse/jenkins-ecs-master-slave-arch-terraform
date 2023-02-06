@@ -1,4 +1,5 @@
 #################### REQUIRED parameters
+variable "profile" {}
 variable "private_subnets" {
   description = "Private subnets to deploy Jenkins and the internal NLB"
   type        = set(string)
@@ -94,7 +95,7 @@ variable "controller_docker_image" {
 
 variable "agent_docker_image" {
   type        = string
-  description = "Docker image to use for the example agent. See: https://hub.docker.com/r/jenkins/inbound-agent/"
+  description = "Docker image to use for the example agent."
   default     = "arifnafees/jenkinsagent:v1"
 }
 
